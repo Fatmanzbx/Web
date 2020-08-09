@@ -36,12 +36,17 @@ def getTitle(html):
             return result
     except AttributeError as e:
         return 'error'
-def savePdf(url,name):
+def savePdf1(url,name):
     s =1
     a = random.random()
     while True:
         Web = getPage(url)
-        title=getTitle(Web).strip()
+        try:
+            title=getTitle(Web).strip()
+        except AttributeError as e:
+            print('fail to get title')
+            time.sleep(10)
+            continue
         print(title)
         if title != 'error': break
         else:
@@ -82,6 +87,58 @@ def savePdf(url,name):
             with open(file, 'a') as f:
                 f.write(pdf)
                 break
+
+def savePdf2(url,name):
+    s = 1
+    a = random.random()
+    title = 'f'
+    while True:
+        Web = getPage(url)
+        try:
+            title = getTitle(Web).strip()
+        except AttributeError as e:
+            print('url')
+            time.sleep(10)
+            continue
+        print(title)
+        if title != 'error':
+            break
+        else:
+            time.sleep(10 * a + 5 * s)
+            s = s + 1
+    out = 1
+    k=0
+    while out ==1:
+        out -= 1
+        try:
+            panel = driver.find_element_by_id('ctl00__bodyTag')
+            load = panel.find_element_by_partial_link_text(title[:15])
+            load.click()
+        except common.exceptions.NoSuchElementException as e:
+            out += 1
+            time.sleep(5)
+            k+=1
+        if k > 10:
+            file = '/Users/zbx/Desktop/demo.txt'
+            with open(file, 'a') as f:
+                f.write(url)
+                break
+    k=0
+    while out==0:
+        out+=1
+        try:
+            os.rename('/Users/zbx/Downloads/ContentServer.asp.pdf', name)
+        except FileNotFoundError as e:
+            k+=1
+            out -= 1
+            time.sleep(2)
+        if k > 10:
+            file = '/Users/zbx/Desktop/demo.txt'
+            with open(file, 'a') as f:
+                f.write(url)
+                break
+
+
 codeWrong=[]
 def generateCorpus(file):
     fopen = open(file)
@@ -94,9 +151,15 @@ def generateCorpus(file):
     i = 1
     for line in lines:
         url = line[:-1]
-        name = Location+'/PDF/'+issue+'Passage'+str(i)+'.pdf'
-        savePdf(url, name)
+        name = Location + '/PDF/' + issue + 'Passage' + str(i) + '.pdf'
+        if i == 1:
+            savePdf1(url, name)
+            driver.find_element_by_partial_link_text('Full View').click()
+        else:
+            savePdf2(url, name)
         i=i+1
+
+
 
 files = os.listdir(Location+'/Links')
 for file in files:
