@@ -1,22 +1,41 @@
+
+import numpy
 import os
-import asyncio
-from pyppeteer import launch
+Location='/Users/zbx/Desktop/Summer/MS/'
+files = os.listdir(Location+'Passage2')
+number = numpy.zeros(500)
+wrong = []
+for file in files:
+    try:
+        volumn = int(file[5:7])
+        issue = int(file[8])
+    except ValueError as e:
+        continue
+    if volumn == 17 or volumn == 18:
+        number[10 * volumn + issue]+=1
+        try:
+            lines = open(Location + '/Passage2/' + file, 'r').readlines()
+        except UnicodeDecodeError as e:
+            wrong.append(file)
+            continue
+    else: continue
+    b = 0
+    k = 0
+    with open('/Users/zbx/Desktop/Summer/MS/Passage/' + str(volumn) + '#issue#'
+        + str(issue) + 'Passage' +str(number[10*volumn+issue]) + '.txt','a')as file_handle:
+        for line in lines:
+            if line.find('http://www.informs.org')>-1:
+                b = 1
+                continue
+            if b == 1 and str.isalnum(line[0]):
+                k = 1
+            if k == 1:
+                file_handle.write(line)
+                file_handle.write('\n')
+with open('/Users/zbx/Desktop/Demo.txt', 'r') as error:
+    for file in wrong:
+        error.write(file+'\n')
 
 
-async def save_pdf(url, pdf_path):
-    browser = await launch(
-        {'headless': True, 'dumpio': True, 'autoClose': False, 'args': ['--no-sandbox', '--window-size=1366,850']})
-    page = await browser.newPage()
-    # 加载指定的网页url
-    await page.goto(url)
-    # 设置网页显示尺寸
-    await page.setViewport({'width': 1920, 'height': 1080})
-    await page.pdf({'path': pdf_path})
-    await browser.close()
 
 
-if __name__ == '__main__':
-    url = "https://www.google.com"
-    pdf_path = os.path.join(os.getcwd(), "example.pdf")
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(save_pdf(url, pdf_path))

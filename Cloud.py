@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # 读取一个txt文件
 
-text = open('/Users/zbx/Desktop/Key'+str(i)+'.txt', 'r').read()
+text = open('/Users/zbx/Desktop/Key'+'.txt', 'r').read()
 
 # 读入背景图片
 

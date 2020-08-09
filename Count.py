@@ -1,35 +1,10 @@
-import re
 import os
-def DiffenrentWord(Location, Data):
-    dic = {}
-    files = os.listdir(Location + '/Passage')
-    for file in files:
-        try:
-            txt = open(Location+'/Passage/'+file, 'r').read().splitlines()
-        except UnicodeDecodeError as e:
-            continue
-        n = 0
-        for line in txt:
-            line = re.sub(r'[.?!,""/]', ' ', line)  # 要替换的标点符号，英文字符可能出现的
-            line = re.sub(r' - ', ' ', line)  # 替换单独的‘-’
-            for word in line.split():
-                # 当一行的最后一个字符是-的时候，需要跟下一个英文字符串联起来构成单词
-                if word[-1] == '-':
-                    m = word[:-1]
-                    n = 1
-                    break
-                if n == 1:
-                    word = m + word
-                    n = 0
-                dic.setdefault(word.lower(), 0)  # 不区分大小写
-                dic[word.lower()] += 1
-    print(len(dic))
-
-Location= '/Users/zbx/Desktop/Summerproject/JournalOfMarketingResearch'
-Data='/Users/zbx/Desktop/Count.txt'
-def wordCount(Location,Data):
+import numpy
+Location= '/Users/zbx/Desktop/Summer/JOCR'
+Data='/Users/zbx/Desktop/Count'
+def wordCount(Location):
     codeWrong = []
-    result= [0, 0, 0, 0, 0, 0, 0]
+    result= [0, 0, 0, 0, 0]
     files = os.listdir(Location+'/Passage')
     for file in files:
         try:
@@ -37,12 +12,40 @@ def wordCount(Location,Data):
         except UnicodeDecodeError as e:
             codeWrong.append(file)
             continue
-        period = int((int(file[:2])+3)/10)
+        period = int((int(file[:2])-3)/5)-4
         result[period] = result[period]+words
-    with open(Data, 'a')as file_handle:
-        for n in range(0,7):
-            file_handle.write(str(result[n]))
-            file_handle.write('\n')
-    for file in codeWrong:
-        print(file)
-DiffenrentWord(Location,Data)
+    return result
+
+
+def passageCount(Location):
+    total=0
+    files = os.listdir(Location + '/Links')
+    codeWrong = []
+    for file in files:
+        try:
+            a= int(file[1:-12])
+            if a > 26: continue
+            for line in open(Location+'/Links/'+file, 'r'):
+                total+=1
+        except TypeError and ValueError as e:
+            codeWrong.append(file)
+            continue
+    print(total)
+
+total=wordCount(Location)
+for i in range (1,4):
+    if i == 1: key = 'anova'
+    if i == 2: key = 'scanner'
+    if i == 3: key = 'mediation'
+    result = numpy.zeros(5)
+    for j in range(0,5):
+        for line in open('/Users/zbx/Desktop/Count'+str(j)+'.txt', 'r'):
+            if line.find(key)>-1:
+                for k in range(1,20):
+                    if str.isdigit(line[k]):
+                        result[j] = float(line[k:k+7])/float(total[j])
+                        break
+                break
+    print(result)
+
+

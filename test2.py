@@ -5,6 +5,7 @@ from pdfminer.pdfpage import PDFPage, PDFTextExtractionNotAllowed
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.layout import LAParams
+import os
 
 
 class PDFUtils():
@@ -12,7 +13,7 @@ class PDFUtils():
     def __init__(self):
         pass
 
-    def pdf2txt(self, path):
+    def pdf2txt(self, path, save):
         with open(path, 'rb') as f:
             praser = PDFParser(f)
 
@@ -28,7 +29,7 @@ class PDFUtils():
             device = PDFPageAggregator(pdfrm, laparams=laparams)
 
             interpreter = PDFPageInterpreter(pdfrm, device)
-            file = '/Users/zbx/Desktop/demo.txt'
+            file = save
             with open(file, 'a') as file_handle:
                 for page in PDFPage.create_pages(doc):
                     interpreter.process_page(page)
@@ -38,10 +39,22 @@ class PDFUtils():
                             content = x.get_text()
                             file_handle.write(content)
 
-        return content
-
-
+Location='/Users/zbx/Desktop/Summer/MS'
 if __name__ == '__main__':
-    path = '/Users/zbx/Desktop/mksc.2020.1230.pdf'
+    k=0
     pdf_utils = PDFUtils()
-    print (pdf_utils.pdf2txt(path))
+    files = os.listdir(Location + '/Passage')
+    for file in files:
+        if file == '.DS_Store' : continue
+        print(file)
+        path = Location + '/Passage/'+file
+        save = Location + '/Passage2/'+file[:-4]+'.txt'
+        try:
+            os.remove(save)
+        except:
+            print('fuck ')
+        pdf_utils.pdf2txt(path,save)
+        os.remove(path)
+        k=k+1
+        print(k)
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="boxuanz@ssh.ocf.berkeley.edu:22">
+    <serverData>
+      <paths name="boxuanz@ssh.ocf.berkeley.edu:22 (2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/b/bo/boxuanz/Web" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="boxuanz@ssh.ocf.berkeley.edu:22 (3)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/b/bo/boxuanz/Web" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="boxuanz@ssh.ocf.berkeley.edu:22 (4)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/b/bo/boxuanz/Web" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="neuroecon@hpcctl.ocf.berkeley.edu:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_368" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

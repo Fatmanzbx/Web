@@ -2,7 +2,7 @@ from typing import Dict
 import requests
 from urllib.error import HTTPError
 from bs4 import BeautifulSoup
-url = "https://pubsonline.informs.org/doi/pdf/10.1287/mksc.2019.1181"
+url = "https://academic.oup.com/jcr/article/22/4/345/1790489"
 def getPage(url):
     session = requests.Session()
     headers: Dict[str, str] = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5)AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
@@ -87,7 +87,17 @@ def getContent(html):
                     file_handle.write('\n')
             except AttributeError as e:
                 continue
+def getTitle(html):
+    title = html.find('h1')
+    try:
+        result=title.get_text()
+        if result is None:
+            return 'error'
+        else:
+            return result
+    except AttributeError as e:
+        return 'error'
+
 Web = getPage(url)
-print(Web)
-import pdfkit
-pdfkit.from_file(Web, 'out.pdf')
+a=getTitle(Web).strip()
+print(a)

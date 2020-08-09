@@ -27,7 +27,7 @@ def saveLink(volume,issue):
     data = soup.find_all('a')
 
     # store them in a txt file
-    file_name='/Users/zbx/Desktop/Summerproject/MarketingScience/Links/V'+str(volume)+'#issue#'+str(issue)+'.txt'
+    file_name='/Users/zbx/Desktop/Summer/MS/Links/V'+str(volume)+'#issue#'+str(issue)+'.txt'
     file = open(file_name, mode='w', encoding='utf-8')
 
     # go over all 'a' tage and get their 'href' attribute
@@ -43,14 +43,15 @@ def saveLink(volume,issue):
     size = os.path.getsize(file_name)
     return size
 t = 1
-for i in range(1, 39):
+for i in range(14, 17):
     for j in range(1, 7):
+        alpha = random.random()*2
         while True:
             a = saveLink(i,j)
-            time.sleep(10)
             if a < 30 :
                 t = t+1
-                time.sleep(10+2*t*t+random.random()*t)
+                time.sleep(3+t*t+random.random()*t)
             else:
                 t = 1
                 break
+        time.sleep(5 + alpha * alpha * alpha * 2)

@@ -1,4 +1,4 @@
-from typing import Dict
+
 import requests
 from bs4 import BeautifulSoup
 import os
@@ -8,7 +8,7 @@ Location = '/Users/zbx/Desktop/Summerproject/JournalOfConsumerResearch'
 codeWrong =[]
 def getPage(url):
     session = requests.Session()
-    headers: Dict[str, str] = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5)AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
+    headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5)AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
             "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"}
     try:
         req = session.get(url, headers=headers, verify=False, timeout=10)
